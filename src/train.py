@@ -34,7 +34,7 @@ cat_pipeline = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore')) 
 ])
 
-# gom pipeline zo 
+# gom lai thanh preprocessor
 preprocessor = ColumnTransformer([
     ('num', num_pipeline, num_features),
     ('cat', cat_pipeline, cat_features)
@@ -54,4 +54,4 @@ rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 print(f"RMSE = {rmse:.2f}")
 
 # luu model
-joblib.dump(full_pipeline, 'model/house_model.joblib')
+joblib.dump(full_pipeline, 'model/model.joblib')
