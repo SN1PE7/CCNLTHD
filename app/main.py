@@ -5,12 +5,10 @@ from fastapi import FastAPI
 from typing import List
 from app.schemas import HousingData, PredictionResult
 
-app = FastAPI(title="California House Price Prediction API")
+app = FastAPI(title="House Price Prediction API")
 
-# Bien toan cuc de giu model
 model = None
 
-# Load model
 @app.on_event("startup")
 async def load_model():
     global model
