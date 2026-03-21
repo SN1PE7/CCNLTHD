@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import joblib
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -54,4 +55,5 @@ rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 print(f"RMSE = {rmse:.2f}")
 
 # luu model
+os.makedirs('model', exist_ok=True)
 joblib.dump(full_pipeline, 'model/model.joblib')
