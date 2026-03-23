@@ -13,6 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.base import BaseEstimator, TransformerMixin
+from app.custom_transformers import CombinedAttributesAdder
 
 # load file data
 df = pd.read_csv('dataset/housing.csv')
@@ -25,20 +26,7 @@ X = df_filtered.drop("median_house_value", axis=1)
 y = df_filtered["median_house_value"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# FEATURE ENGINEERING
-# Xác định index cần dùng (theo thứ tự: longitude, latitude, housing_median_age, total_rooms, total_bedrooms, population, households, median_income)
-# index: total_rooms=3, total_bedrooms=4, population=5, households=6
-rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
 
-class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
-    def fit(self, X, y=None):
-        return self  
-    
-    def transform(self, X):
-        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
-        bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
-        population_per_household = X[:, population_ix] / X[:, households_ix]
-        return np.c_[X, rooms_per_household, bedrooms_per_room, population_per_household]
 
 # preprocessing
 num_features = ["longitude", "latitude", "housing_median_age", "total_rooms",

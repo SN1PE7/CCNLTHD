@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from typing import List
 from app.schemas import HousingData, PredictionResult
 from fastapi.concurrency import run_in_threadpool
+from app.custom_transformers import CombinedAttributesAdder
 
 app = FastAPI(title="House Price Prediction API")
 model = None
@@ -44,8 +45,8 @@ def predict_with_std(input_df: pd.DataFrame):
 @app.post("/predict", response_model=List[PredictionResult])
 async def predict(data: List[HousingData]):
     start_time = time.time()
-
-    input_df = pd.DataFrame([item.dict() for item in data])
+    
+    input_df = pd.DataFrame([item.model_dump() for item in data])
 
     predictions, stds = await run_in_threadpool(predict_with_std, input_df)
 

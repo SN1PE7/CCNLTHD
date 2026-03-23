@@ -13,7 +13,7 @@ class HousingData(BaseModel):
     ocean_proximity: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "longitude": -122.23,
                 "latitude": 37.88,
