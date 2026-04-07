@@ -1,5 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 from typing import List
+
+ALLOWED_OCEAN_PROXIMITY = {
+    "<1H OCEAN",
+    "INLAND",
+    "ISLAND",
+    "NEAR BAY",
+    "NEAR OCEAN",
+}
 
 class HousingData(BaseModel):
     longitude: float
@@ -11,6 +19,15 @@ class HousingData(BaseModel):
     households: float
     median_income: float
     ocean_proximity: str
+
+    @validator("ocean_proximity")
+    def validate_ocean_proximity(cls, value: str) -> str:
+        # Chuẩn hóa giá trị: xóa khoảng trắng thừa và viết hoa
+        normalized_value = value.strip().upper()
+        if normalized_value not in ALLOWED_OCEAN_PROXIMITY:
+            allowed_values = ", ".join(sorted(ALLOWED_OCEAN_PROXIMITY))
+            raise ValueError(f"ocean_proximity must be one of: {allowed_values}")
+        return normalized_value
 
     class Config:
         json_schema_extra = {

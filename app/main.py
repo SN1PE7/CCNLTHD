@@ -42,13 +42,13 @@ def predict_with_std(input_df: pd.DataFrame):
 
     return predictions, stds
 
-@app.post("/predict", response_model=List[PredictionResult])
-async def predict(data: List[HousingData]):
+@app.post("/predict", response_model=List[PredictionResult]) 
+async def predict(data: List[HousingData]): # Batch request
     start_time = time.time()
     
     input_df = pd.DataFrame([item.model_dump() for item in data])
 
-    predictions, stds = await run_in_threadpool(predict_with_std, input_df)
+    predictions, stds = await run_in_threadpool(predict_with_std, input_df) # Xu ly bat dong bo async/await
 
     duration = f"{(time.time() - start_time) * 1000:.2f} ms"
 
