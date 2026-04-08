@@ -47,6 +47,6 @@ class HousingData(BaseModel):
 class PredictionResult(BaseModel):
     prediction:          float  # kq
     prediction_std:      float  # độ lệch chuẩn
-    prediction_std_low:  float  # thấp nhất dự tính
-    prediction_std_high: float  # cao nhất dự tính
+    prediction_std_low:  float  # giá trị thấp nhất dự tính
+    prediction_std_high: float  # giá trị cao nhất dự tính
     inference_time:      str    # thời gian xử lý request
