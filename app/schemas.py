@@ -47,7 +47,7 @@ class HousingData(BaseModel):
 
 
 class BatchPredictionRequest(BaseModel):
-    items: conlist(HousingData, min_items=1, max_items=128)
+    items: conlist(HousingData, min_length=1, max_length=128)
 
     class Config:
         schema_extra = {
